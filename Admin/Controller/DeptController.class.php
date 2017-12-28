@@ -4,11 +4,11 @@ use Think\Controller;
 
 class DeptController extends Controller{
     
-    public function tianjia(){
+    /*public function tianjia(){
         $model=M('Dept');
         $update=array(
             array(
-             'name'=>'公关部',
+            'name'=>'公关部',
             'pod'=>'0',
             'sort'=>'3',
             'remark'=>'这是公共关系部'
@@ -71,14 +71,18 @@ class DeptController extends Controller{
         $result=$model->add();
         dump($result);
     }
-    
+    */
     public function add() {
         if(IS_POST){
-        $dept=M('Dept');
-        $data=I('post.');
+        $dept=D('Dept');
+        //$data=I('post.');
+        $data=$dept->create();
+        if(!$data){
+        $this->error($dept->getError()); exit();
+        };
         $result=$dept->add($data);
         if($result){
-            $this->success('添加成功',U('showList'),3);
+            $this->success('添加成功',U('showList'),5);
         }else{
             $this->error('添加失败');
         }
@@ -98,5 +102,6 @@ class DeptController extends Controller{
        $this->assign('list',$list);
        $this->display();
     }
-}
+    
 
+}
