@@ -98,10 +98,39 @@ class DeptController extends Controller{
     public function showList(){
        $dept=M('Dept');
        $list=$dept->order('id asc')->select();
-        
        $this->assign('list',$list);
        $this->display();
     }
-    
-
+    public function Edit(){
+           if(IS_GET){
+           $dept=M('Dept');
+           $data=(int)$_GET['id'];
+           $list=$dept->order('pid asc')->select();
+           $result=$dept->where("id=$data")->find();
+           $this->assign('result',$result);
+           $this->assign('list',$list);
+           $this->display();
+           }else{
+               $dept=M('Dept');
+               $data=$dept->create();
+               
+               if(!$data){
+                   $this->error('修改失败');
+               } else {
+                   $result=$dept->save($data);
+                   $this->success('修改成功',U('showList'),2);    
+               }
+           }
+           }  
+    public function del(){
+            $dept=M('Dept');
+            $data=(int)$_GET['id'];
+            $result=$dept->where("id=$data")->delete();
+            if(!$result){
+                $this->error("删除失败");
+            }else{
+                $this->success('删除成功',U('showList'),2);
+            }
+          
+    }
 }
