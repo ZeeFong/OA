@@ -82,7 +82,7 @@ class DeptController extends Controller{
         };
         $result=$dept->add($data);
         if($result){
-            $this->success('添加成功',U('showList'),5);
+            $this->success('添加成功',U('showList'),2);
         }else{
             $this->error('添加失败');
         }
@@ -104,9 +104,13 @@ class DeptController extends Controller{
     public function Edit(){
            if(IS_GET){
            $dept=M('Dept');
-           $data=(int)$_GET['id'];
-           $list=$dept->order('pid asc')->select();
-           $result=$dept->where("id=$data")->find();
+           //获取get传递过来的ID
+           $id=I('get.id');
+           //查询出所属部门列表，除去自己。
+           $list=$dept->where('id !='.$id)->select();
+           //查询GET传回来的id所对应的信息
+           $result=$dept->find($id);
+           //将变量传递给模板
            $this->assign('result',$result);
            $this->assign('list',$list);
            $this->display();
@@ -124,12 +128,12 @@ class DeptController extends Controller{
            }  
     public function del(){
             $dept=M('Dept');
-            $data=(int)$_GET['id'];
-            $result=$dept->where("id=$data")->delete();
+            $id=I('get.id');
+            $result=$dept->delete($id);
             if(!$result){
                 $this->error("删除失败");
             }else{
-                $this->success('删除成功',U('showList'),2);
+                $this->success('删除成功');
             }
           
     }
