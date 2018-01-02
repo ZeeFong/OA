@@ -11,10 +11,21 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>
-       <volist name="list" id="vo">
-            {$vo.id}：{$vo.name}&nbsp;&nbsp;&nbsp;&nbsp;{$vo.remark}<br>
-            </volist>
-        </div>
+
+    <table border='1' onabort="1">
+    <tr>
+        <th>序号</th> <th>部门</th> <th>所属部门</th> <th>排序</th> <th>备注</th> <th>操作</th>
+    </tr>
+    <hr/>
+    
+    <volist name="list" id="vo">
+        <tr>
+            <td>{$vo.id}</td><td>{$vo.name}</td><td>{$vo.pid}</td><td>{$vo.sort}</td><td>{$vo.remark}</td><td><a href="__CONTROLLER__/edit/id/{$vo.id}">编辑</a>&nbsp;<a href="__CONTROLLER__/del/id/{$vo.id}">删除</a></td>
+        </tr>
+    </volist>
+    
+   </table>  
+        
+    <hr/>
     </body>
 </html>
